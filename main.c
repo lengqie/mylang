@@ -35,11 +35,18 @@ static int pos = 0;     //lexer position
 static Token token_gen(TokenType type, char* value){
     return (Token){type, value};
 }
+
+static char* copy_string(char* string, int length){
+    char* new_string = malloc(length + 1);
+    memcpy(new_string, string, length);
+    new_string[length] = '\0';
+    return new_string;
+}
 static Token lex(char* source){
     if (source[pos] == '\0'){
         return token_gen(TOKEN_EOF, NULL);
     }
-    if (source[pos] == 'p' && strncmp(source + pos, "rint", 4) == 0){
+    if (source[pos] == 'p' && strncmp(source + pos + 1, "rint", 4) == 0){
         pos +=5;
         return token_gen(TOKEN_PRINT, "print");
     }
@@ -53,7 +60,8 @@ static Token lex(char* source){
     }
     if (source[pos] == '"'){
         char* start = source + pos + 1;
-        while(source[pos] != '"'){
+        pos++;
+        while(source[pos] != '"' && source[pos] != '\0'){
             pos++;
         }
         if (source[pos] == '\0'){
@@ -61,7 +69,7 @@ static Token lex(char* source){
         }
         char* end = source + pos;
         pos++;
-        return token_gen(TOKEN_STRING, strndup(start, end - start));
+        return token_gen(TOKEN_STRING, copy_string(start, end - start));
     }
     return token_gen(TOKEN_ERROR, "unknown character");
 }
