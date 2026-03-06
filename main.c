@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 typedef enum{
     TOKEN_EOF,      // \0
@@ -38,7 +39,7 @@ static Token lex(char* source){
     if (source[pos] == '\0'){
         return token_gen(TOKEN_EOF, NULL);
     }
-    if (source[pos] == 'p' && strnmp(source + pos, "rint", 4) == 0){
+    if (source[pos] == 'p' && strncmp(source + pos, "rint", 4) == 0){
         pos +=5;
         return token_gen(TOKEN_PRINT, "print");
     }
@@ -62,7 +63,7 @@ static Token lex(char* source){
         pos++;
         return token_gen(TOKEN_STRING, strndup(start, end - start));
     }
-    return token_gen(TOKEN_EOF, NULL);
+    return token_gen(TOKEN_ERROR, "unknown character");
 }
 int main(int argc, char *argv[])
 {
