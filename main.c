@@ -15,6 +15,10 @@ typedef struct {
     TokenType type;
     char* value;
 } Token;
+
+static int pos = 0;     //lexer position
+static Token current_token; // corrent token
+
 static char* read_source(char* filename){
     FILE* f = fopen(filename, "rb");
     if(f == NULL){
@@ -30,8 +34,6 @@ static char* read_source(char* filename){
     return buffer;
 
 }
-static int pos = 0;     //lexer position
-
 static Token token_gen(TokenType type, char* value){
     return (Token){type, value};
 }
@@ -43,7 +45,7 @@ static char* copy_string(char* string, int length){
     return new_string;
 }
 static char* skip_space(char * source){
-    while (source[pos] == ' ' && source[pos] == '\t' && source[pos] == '\n'){
+    while (source[pos] == ' ' || source[pos] == '\t' || source[pos] == '\n'){
         pos++;
     }
 }
@@ -83,8 +85,7 @@ int main(int argc, char *argv[])
 {
     if(argc > 1){
         char* source = read_source(argv[1]);
-        // printf("%s", source);
-        lex(source);
+        parser(source);
     } else {
         printf("Hello World");
     }
