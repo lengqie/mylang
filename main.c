@@ -42,7 +42,13 @@ static char* copy_string(char* string, int length){
     new_string[length] = '\0';
     return new_string;
 }
+static char* skip_space(char * source){
+    while (source[pos] == ' ' && source[pos] == '\t' && source[pos] == '\n'){
+        pos++;
+    }
+}
 static Token lex(char* source){
+    skip_space(source);
     if (source[pos] == '\0'){
         return token_gen(TOKEN_EOF, NULL);
     }
