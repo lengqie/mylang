@@ -45,7 +45,7 @@ static char* copy_string(char* string, int length){
     return new_string;
 }
 static char* skip_space(char * source){
-    while (source[pos] == ' ' || source[pos] == '\t' || source[pos] == '\n'){
+    while (source[pos] == ' ' || source[pos] == '\t' || source[pos] == '\n' || source[pos] == '\r'){
         pos++;
     }
 }
