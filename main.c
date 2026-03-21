@@ -81,11 +81,45 @@ static Token lex(char* source){
     }
     return token_gen(TOKEN_ERROR, "unknown character");
 }
+static void advance (char* source){
+    current_token = lex(source);
+}
+
+static void expect(TokenType type, char* source){
+    if (current_token.type != type){
+        printf("parser error!");
+        exit(1);
+    }
+    advance(source);
+}
+
+static void parse_print(char* source){
+    expect(TOKEN_PRINT, source);
+    expect(TOKEN_LPAREN, source);
+    if(current_token.type != TOKEN_STRING){
+        printf("syntax error!");
+    }
+    printf("%s\n",current_token.value);
+    free(current_token.value);
+    advance(source);
+    expect(TOKEN_RPAREN, source);
+}
+static void parser(char* source){
+    advance(source);
+    while (current_token.type != TOKEN_EOF)
+    {
+        parse_print(source);
+    }
+}
+
+
+
 int main(int argc, char *argv[])
 {
     if(argc > 1){
         char* source = read_source(argv[1]);
         parser(source);
+        free(source);
     } else {
         printf("Hello World");
     }
