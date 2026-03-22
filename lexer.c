@@ -27,7 +27,11 @@ Token lex(char* source){
     if (source[pos] == '\0'){
         return token_gen(TOKEN_EOF, NULL);
     }
-    if (source[pos] == 'p' && strncmp(source + pos + 1, "rint", 4) == 0){
+    if (strncmp(source + pos, "print", 5) == 0 &&
+        (source[pos + 5] == '(' || 
+         source[pos + 5] == ' ' ||
+         source[pos + 5] == '\t' ||
+         source[pos + 5] == '\r') ){
         pos +=5;
         return token_gen(TOKEN_PRINT, "print");
     }
