@@ -2,7 +2,11 @@ CC = gcc
 CFLAGS = -Wall -Wextra -g
 
 BUILD_DIR = build
+ifeq ($(OS),Windows_NT)
 TARGET = $(BUILD_DIR)/run.exe
+else
+TARGET = $(BUILD_DIR)/run
+endif
 INPUT = test.txt
 
 SRCS = main.c lexer.c parser.c
