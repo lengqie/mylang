@@ -7,18 +7,22 @@ A minimal interpreter written in C
 ## Project Structure
 
 ~~~text
-├── main.c # Entry point
-├── lexer.c # Lexical analysis
+├── main.c       # Entry point
+├── lexer.c      # Lexical analysis
 ├── lexer.h
-├── parser.c # Syntax analysis
+├── parser.c     # Syntax analysis
 ├── parser.h
-├── token.h # Token definitions
-└── Makefile # Build
+├── token.h      # Token definitions
+├── env.c        # Variable store
+├── env.h
+└── Makefile     # Build
 ~~~
 
 ## Example
 
 ~~~mylang
+x = "hello"
+print(x)
 print("Hello world")
 ~~~
 
@@ -39,7 +43,7 @@ Run
 ## Roadmap
 
 - [x] Hello World
-- [ ] Variables
+- [x] Variables
 - [ ] Numbers
 - [ ] Expressions
 - [ ] AST
