@@ -5,10 +5,16 @@
 #include "lexer.h"
 #include "env.h"
 
+static void syntax_error(const char* msg){
+    printf("syntax error: %s, got '%s'\n", msg, current_token.value);
+    exit(1);
+}
 static void expect(TokenType type, char* source){
+    if (current_token.type == TOKEN_ERROR){
+        syntax_error(current_token.value);
+    }
     if (current_token.type != type){
-        printf("parser error!");
-        exit(1);
+        syntax_error("unexpected token");
     }
     advance(source);
 }
@@ -22,11 +28,11 @@ static void parse_print(char* source){
     } else if (current_token.type == TOKEN_IDENT){
         val = env_get(current_token.value);
         if (!val){
-            printf("undefined identifier!\n");
+            syntax_error("undefined identifier");
             exit(1);
         }
     } else {
-        printf("syntax error!\n");
+        syntax_error("expected string or variable in print()");
         exit(1);
     }
     printf("%s\n",val);
@@ -43,7 +49,7 @@ static void parse_assign(char* source, char* name){
         free(current_token.value);
         advance(source);
     } else {
-        printf("syntax error!\n");
+        syntax_error("expected string or number after '='");
         exit(1);
     }
 }
@@ -58,7 +64,7 @@ void parser(char* source){
             advance(source);
             parse_assign(source,name);
         } else {
-            printf("syntax error!\n");
+            syntax_error("unexpected statement");
             exit(1);
         }
     }
