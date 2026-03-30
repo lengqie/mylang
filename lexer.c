@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <ctype.h>
 #include "lexer.h"
 
 
@@ -35,6 +36,24 @@ Token lex(char* source){
         pos +=5;
         return token_gen(TOKEN_PRINT, "print");
     }
+    if ((isalpha((unsigned char) source[pos])) || source[pos] =='_'){
+        int start = pos;
+        while ((isalnum((unsigned char) source[pos])) || source[pos] =='_'){
+            pos++;
+        }
+        return token_gen(TOKEN_IDENT,copy_string(source + start, pos - start));
+    }
+    if (isdigit((unsigned char) source[pos])){
+        int start = pos;
+        while (isdigit((unsigned char) source[pos])){
+            pos++;
+        }
+        return token_gen(TOKEN_NUMBER,copy_string(source + start, pos - start));
+    }
+    if (source[pos] == '='){
+        pos++;
+        return token_gen(TOKEN_ASSIGN,"=");
+    }
     if (source[pos] == '('){
         pos++;
         return token_gen(TOKEN_LPAREN, "(");
@@ -44,7 +63,7 @@ Token lex(char* source){
         return token_gen(TOKEN_RPAREN, ")");
     }
     if (source[pos] == '"'){
-        char* start = source + pos + 1;
+        int start = pos + 1;
         pos++;
         while(source[pos] != '"' && source[pos] != '\0'){
             pos++;
@@ -52,9 +71,8 @@ Token lex(char* source){
         if (source[pos] == '\0'){
             return token_gen(TOKEN_ERROR, "unterminated string");
         }
-        char* end = source + pos;
         pos++;
-        return token_gen(TOKEN_STRING, copy_string(start, end - start));
+        return token_gen(TOKEN_STRING, copy_string(source + start, pos - start - 1));
     }
     return token_gen(TOKEN_ERROR, "unknown character");
 }

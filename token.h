@@ -8,6 +8,9 @@ typedef enum{
     TOKEN_STRING,   // string type
     TOKEN_PRINT,    // print()
     TOKEN_ERROR,    // error
+    TOKEN_IDENT,    // identifier
+    TOKEN_ASSIGN,   // =
+    TOKEN_NUMBER    // number
 } TokenType;
 
 typedef struct {

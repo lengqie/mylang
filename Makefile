@@ -9,7 +9,7 @@ TARGET = $(BUILD_DIR)/run
 endif
 INPUT = test.txt
 
-SRCS = main.c lexer.c parser.c
+SRCS = main.c lexer.c parser.c env.c
 OBJS = $(patsubst %.c,$(BUILD_DIR)/%.o,$(SRCS))
 
 all: $(TARGET)
