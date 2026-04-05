@@ -76,3 +76,7 @@ Token lex(char* source){
 void advance (char* source){
     current_token = lex(source);
 }
+
+void lexer_reset(void){
+    pos = 0;
+}
