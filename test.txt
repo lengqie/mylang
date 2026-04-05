@@ -1,3 +1,6 @@
 x = "hello"
 print(x)
 print("world")
+
+y = (3 + 7) / 2
+print(y)

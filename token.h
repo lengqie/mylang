@@ -9,8 +9,12 @@ typedef enum{
     TOKEN_PRINT,    // print()
     TOKEN_ERROR,    // error
     TOKEN_IDENT,    // identifier
+    TOKEN_NUMBER,    // number
     TOKEN_ASSIGN,   // =
-    TOKEN_NUMBER    // number
+    TOKEN_PLUS,     // +
+    TOKEN_MINUS,    // -
+    TOKEN_STAR,     // *
+    TOKEN_SLASH,    // /
 } TokenType;
 
 typedef struct {

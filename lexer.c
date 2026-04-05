@@ -50,18 +50,6 @@ Token lex(char* source){
         }
         return token_gen(TOKEN_NUMBER,copy_string(source + start, pos - start));
     }
-    if (source[pos] == '='){
-        pos++;
-        return token_gen(TOKEN_ASSIGN,"=");
-    }
-    if (source[pos] == '('){
-        pos++;
-        return token_gen(TOKEN_LPAREN, "(");
-    }
-    if (source[pos] == ')'){
-        pos++;
-        return token_gen(TOKEN_RPAREN, ")");
-    }
     if (source[pos] == '"'){
         int start = pos + 1;
         pos++;
@@ -74,7 +62,16 @@ Token lex(char* source){
         pos++;
         return token_gen(TOKEN_STRING, copy_string(source + start, pos - start - 1));
     }
-    return token_gen(TOKEN_ERROR, "unknown character");
+    switch (source[pos++]){
+        case '=': return token_gen(TOKEN_ASSIGN, "=");
+        case '(': return token_gen(TOKEN_LPAREN, "(");
+        case ')': return token_gen(TOKEN_RPAREN, ")");
+        case '+': return token_gen(TOKEN_PLUS,   "+");
+        case '-': return token_gen(TOKEN_MINUS,  "-");
+        case '*': return token_gen(TOKEN_STAR,   "*");
+        case '/': return token_gen(TOKEN_SLASH,  "/");
+        default:  return token_gen(TOKEN_ERROR,  "unknown character");
+    }
 }
 void advance (char* source){
     current_token = lex(source);

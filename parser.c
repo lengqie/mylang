@@ -5,6 +5,13 @@
 #include "lexer.h"
 #include "env.h"
 
+static void syntax_error(const char* msg);
+static void expect(TokenType type, char* source);
+static int parse_primary(char* source);
+static int parse_term(char* source);
+static int parse_expr(char* source);
+static void parse_print(char* source);
+static void parse_assign(char* source, char* name);
 static void syntax_error(const char* msg){
     printf("syntax error: %s, got '%s'\n", msg, current_token.value);
     exit(1);
@@ -18,26 +25,92 @@ static void expect(TokenType type, char* source){
     }
     advance(source);
 }
+static int parse_primary(char* source){
+    if (current_token.type == TOKEN_NUMBER){
+        int val = atoi(current_token.value);
+        free(current_token.value);
+        advance(source);
+        return val;
+    }
+    if (current_token.type == TOKEN_IDENT){
+        const char* str_val = env_get(current_token.value);
+        if (!str_val){
+            syntax_error("undefined identifier");
+        }
+        int val =  atoi(str_val);
+        free(current_token.value);
+        advance(source);
+        return val;
+    }
+    if (current_token.type == TOKEN_LPAREN){
+        advance(source);
+        int val = parse_expr(source);
+        expect(TOKEN_RPAREN, source);
+        return val;
+    }
+    
+    syntax_error("expected number, variable or '('");
+    return 0;
+    
+}
 
+static int parse_term(char* source){
+    int left = parse_primary(source);
+
+    while (current_token.type == TOKEN_STAR || current_token.type == TOKEN_SLASH){
+        TokenType op = current_token.type;
+        advance(source);
+        int right = parse_primary(source);
+
+        if (op == TOKEN_STAR){
+            left *= right;
+        } else {
+            if (right == 0){
+                syntax_error("division by zero");
+                exit(1);
+            }
+            left /= right;
+        }
+        
+    }
+    return left;
+}
+
+static int parse_expr(char* source){
+    int left = parse_term(source);
+    
+    while (current_token.type == TOKEN_PLUS || current_token.type == TOKEN_MINUS){
+        TokenType op = current_token.type;
+        advance(source);
+        int right = parse_term(source);
+        
+        if (op == TOKEN_PLUS){
+            left += right;
+        } else {
+            left -= right;
+        }
+    }
+    return left;
+}
 static void parse_print(char* source){
     expect(TOKEN_PRINT, source);
     expect(TOKEN_LPAREN, source);
-    const char* val = NULL;
     if(current_token.type == TOKEN_STRING){
-        val = current_token.value;
+        printf("%s\n", current_token.value);
+        free(current_token.value);
+        advance(source);
     } else if (current_token.type == TOKEN_IDENT){
-        val = env_get(current_token.value);
+        const char* val = env_get(current_token.value);
         if (!val){
             syntax_error("undefined identifier");
-            exit(1);
         }
+        printf("%s\n", val);
+        free(current_token.value);
+        advance(source);
     } else {
-        syntax_error("expected string or variable in print()");
-        exit(1);
+        int result = parse_expr(source);
+        printf("%d\n", result);
     }
-    printf("%s\n",val);
-    free(current_token.value);
-    advance(source);
     expect(TOKEN_RPAREN, source);
 }
 
@@ -49,8 +122,10 @@ static void parse_assign(char* source, char* name){
         free(current_token.value);
         advance(source);
     } else {
-        syntax_error("expected string or number after '='");
-        exit(1);
+        int result = parse_expr(source);
+        char buffer[32];
+        snprintf(buffer, sizeof(buffer), "%d", result);
+        env_set(name, buffer);
     }
 }
 void parser(char* source){
