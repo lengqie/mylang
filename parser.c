@@ -33,11 +33,14 @@ static int parse_primary(char* source){
         return val;
     }
     if (current_token.type == TOKEN_IDENT){
-        const char* str_val = env_get(current_token.value);
-        if (!str_val){
+        const Var* var = env_get(current_token.value);
+        if (!var){
             syntax_error("undefined identifier");
         }
-        int val =  atoi(str_val);
+        if (var->type != VAR_INT){
+            syntax_error("expected int variable in expression");
+        }
+        int val =  atoi(var->value);
         free(current_token.value);
         advance(source);
         return val;
@@ -99,14 +102,18 @@ static void parse_print(char* source){
         printf("%s\n", current_token.value);
         free(current_token.value);
         advance(source);
-    } else if (current_token.type == TOKEN_IDENT){
-        const char* val = env_get(current_token.value);
-        if (!val){
+    }  else if (current_token.type == TOKEN_IDENT){
+        const Var* var = env_get(current_token.value);
+        if(!var){
             syntax_error("undefined identifier");
         }
-        printf("%s\n", val);
-        free(current_token.value);
-        advance(source);
+        if(var->type == VAR_STRING){
+            printf("%s\n", var->value);
+            advance(source);
+        } else {
+            int result = parse_expr(source);
+            printf("%d\n", result);
+        }
     } else {
         int result = parse_expr(source);
         printf("%d\n", result);
@@ -116,16 +123,19 @@ static void parse_print(char* source){
 
 static void parse_assign(char* source, char* name){
     expect(TOKEN_ASSIGN, source);
-    if (current_token.type == TOKEN_STRING || 
-        current_token.type == TOKEN_NUMBER){
-        env_set(name, current_token.value);
+    if (current_token.type == TOKEN_STRING){
+        env_set(name, current_token.value, VAR_STRING);
+        free(current_token.value);
+        advance(source);
+    } else if (current_token.type == TOKEN_NUMBER){
+        env_set(name, current_token.value, VAR_INT);
         free(current_token.value);
         advance(source);
     } else {
         int result = parse_expr(source);
         char buffer[32];
         snprintf(buffer, sizeof(buffer), "%d", result);
-        env_set(name, buffer);
+        env_set(name, buffer,VAR_INT);
     }
 }
 void parser(char* source){

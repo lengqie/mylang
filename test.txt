@@ -4,3 +4,4 @@ print("world")
 
 y = (3 + 7) / 2
 print(y)
+print(y+1)
