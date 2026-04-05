@@ -109,6 +109,7 @@ static void parse_print(char* source){
         }
         if(var->type == VAR_STRING){
             printf("%s\n", var->value);
+            free(current_token.value);
             advance(source);
         } else {
             int result = parse_expr(source);
@@ -139,6 +140,7 @@ static void parse_assign(char* source, char* name){
     }
 }
 void parser(char* source){
+    lexer_reset();
     advance(source);
 
     while (current_token.type != TOKEN_EOF){

@@ -24,7 +24,7 @@ $(BUILD_DIR):
 	mkdir $(BUILD_DIR)
 
 dev: $(TARGET)
-	.\$(TARGET) $(INPUT)
+	./$(TARGET) $(INPUT)
 
 ifeq ($(OS),Windows_NT)
 clean:
@@ -32,5 +32,5 @@ clean:
 	-del /Q build\run.exe
 else
 clean:
-	-rm -f build/*.o build/run.exe
+	-rm -f build/*.o build/run build/run.exe
 endif
