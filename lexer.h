@@ -7,5 +7,6 @@ extern Token current_token;
 
 void advance(char* source);
 Token lex(char* source);
+void lexer_reset(void);
 
 #endif
