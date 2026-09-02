@@ -1,4 +1,11 @@
+# build artifacts
 /build/
-/.vscode/
-
+*.o
 *.exe
+
+# editor / IDE
+.vscode/
+.idea/
+
+# OS
+.DS_Store

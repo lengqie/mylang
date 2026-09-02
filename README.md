@@ -24,6 +24,32 @@ A minimal interpreter written in C
 x = "hello"
 print(x)
 print("Hello world")
+
+// expressions
+sum = (1 + 2) * 3
+print(sum)
+
+// comparison & condition
+score = 85
+if (score >= 60) {
+    print("pass")
+} else {
+    print("fail")
+}
+
+// loops
+i = 1
+sum = 0
+while (i <= 10) {
+    sum = sum + i
+    i = i + 1
+}
+print(sum)
+
+// for loop
+for (k = 0; k < 5; k = k + 1) {
+    print(k)
+}
 ~~~
 
 ## Build
@@ -40,10 +66,19 @@ Run
 ./run test.txt
 ~~~
 
-## Roadmap
+## Features
 
-- [x] Hello World
-- [x] Variables
-- [ ] Numbers
-- [ ] Expressions
+- [x] `print()` statement
+- [x] Variables (string & integer)
+- [x] Expressions: `+`, `-`, `*`, `/`, `()`
+- [x] Comparison operators: `==`, `!=`, `<`, `>`, `<=`, `>=`
+- [x] Operator precedence: `* /` > `+ -` > comparison
+- [x] `if/else` conditional
+- [x] `while` loop
+- [x] `for` loop (init; cond; incr)
+- [x] Block statements `{ ... }`
+- [x] Single-line comments `//`
 - [ ] AST
+- [ ] Float numbers
+- [ ] Strings in expressions
+- [ ] Functions

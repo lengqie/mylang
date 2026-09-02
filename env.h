@@ -12,7 +12,7 @@ typedef struct{
     VarType type;
 } Var;
 
-void env_set(const char* name, const char* value,VarType type);
+void env_set(const char* name, const char* value, VarType type);
 const Var* env_get(const char* name);
 void env_free(void);
 

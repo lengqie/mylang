@@ -1,5 +1,5 @@
-#include<stdio.h>
-#include<string.h>
+#include <stdio.h>
+#include <string.h>
 #include <stdlib.h>
 
 #include "env.h"
@@ -11,33 +11,30 @@ void env_set(const char* name, const char* value, VarType type){
     if (var_count >= MAX_VARS){
         exit(1);
     }
-    for (int i = 0; i < var_count; i++)
-    {
-        if (strcmp(vars[i].name,name) == 0){
+    for (int i = 0; i < var_count; i++){
+        if (strcmp(vars[i].name, name) == 0){
             free(vars[i].value);
-            vars[i].value =  strdup(value);
+            vars[i].value = strdup(value);
             vars[i].type = type;
             return;
         }
     }
-    vars[var_count].name =  strdup(name);
+    vars[var_count].name = strdup(name);
     vars[var_count].value = strdup(value);
     vars[var_count].type = type;
     var_count++;
 
 }
 const Var* env_get(const char* name){
-    for (int i = 0; i < var_count; i++)
-    {
-        if (strcmp(vars[i].name,name) == 0){
+    for (int i = 0; i < var_count; i++){
+        if (strcmp(vars[i].name, name) == 0){
             return &vars[i];
         }
     }
     return NULL;
 }
 void env_free(void){
-    for (int i = 0; i < var_count; i++)
-    {
+    for (int i = 0; i < var_count; i++){
         free(vars[i].name);
         free(vars[i].value);
     }

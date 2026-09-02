@@ -4,7 +4,7 @@
 
 static char* read_source(char* filename){
     FILE* f = fopen(filename, "rb");
-    if(f == NULL){
+    if (f == NULL){
         return NULL;
     }
     fseek(f, 0, SEEK_END);
@@ -29,7 +29,7 @@ static char* read_source(char* filename){
 
 int main(int argc, char *argv[])
 {
-    if(argc > 1){
+    if (argc > 1){
         char* source = read_source(argv[1]);
         if (source == NULL){
             fprintf(stderr, "failed to read source file: %s\n", argv[1]);
