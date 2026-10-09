@@ -26,6 +26,9 @@ $(BUILD_DIR):
 dev: $(TARGET)
 	./$(TARGET) $(INPUT)
 
+test: $(TARGET)
+	./tools/run-tests.sh ./$(TARGET)
+
 ifeq ($(OS),Windows_NT)
 clean:
 	-del /Q build\*.o
