@@ -11,8 +11,8 @@ more than adding features quickly.
 ## Where the language is defined
 
 The language itself (syntax, semantics, types, error messages) is specified by the
-maintainer in the syntax specification document kept in this repository. That document
-is the source of truth; this file only says how to work on the code.
+maintainer in `SYNTAX.md`. That document is the source of truth; this file only says how
+to work on the code.
 
 - Agents implement what the specification says. Do not invent syntax, and do not treat a
   PR description, a comment, or this file as a spec.
