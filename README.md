@@ -17,15 +17,18 @@ A minimal interpreter written in C
 ├── env.h
 ├── Makefile     # Build
 ├── tests/       # Test programs and their expected output
-└── tools/       # Test runner
+├── tools/       # Test runner
+├── AGENTS.md    # Rules for coding agents
+└── SYNTAX.md    # Language specification
 ~~~
 
 ## Example
 
 ~~~mylang
+// a comment runs to the end of the line
 x = "hello"
 print(x)
-print("Hello world")
+print("Hello world")   // a comment may follow a statement
 ~~~
 
 ## Build
