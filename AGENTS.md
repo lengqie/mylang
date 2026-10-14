@@ -35,9 +35,12 @@ to work on the code.
    bundled with a feature made an earlier change impossible to review; it had to be
    reverted. If you think reformatting is needed, propose it as its own PR and wait for
    approval.
-5. **Every behaviour change ships with a test.** A PR that adds syntax also adds
-   `tests/*.my` + `tests/*.expected` cases covering it, including at least one case for
-   the way it fails.
+5. **Every behaviour change ships with a test and its documentation.** A PR that adds
+   syntax also adds `tests/*.my` + `tests/*.expected` cases covering it, including at
+   least one case for the way it fails. The README and any other document the change
+   makes stale are updated in the same commit. A documentation example that can be
+   executed belongs in `tests/` as well, so it cannot drift away from the
+   implementation.
 6. **The build must stay warning-free** with `-Wall -Wextra -Werror`, and `make test`
    must be green before a PR is opened.
 7. **Do not rewrite published history.** No force-pushes to `main`, no rebases of
@@ -45,6 +48,10 @@ to work on the code.
    be moved or deleted.
 8. **Stay inside the task.** Do not touch files, settings, CI, or repository metadata
    that the task does not require. Ask first if it seems necessary.
+9. **Open the PR when the change is complete.** Write the code, the tests and the
+   documentation, run the strict build and the full test suite, and only then open the
+   PR. A PR is a finished change to review, not a work log: squash your intermediate
+   commits before asking for review.
 
 ## Workflow
 

@@ -67,6 +67,6 @@ CI builds with `-Wall -Wextra -Werror` and runs `make test` on every push.
 
 - [x] Hello World
 - [x] Variables
-- [ ] Numbers
-- [ ] Expressions
+- [x] Numbers
+- [x] Expressions
 - [ ] AST
