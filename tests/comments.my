@@ -1,0 +1,5 @@
+// leading comment
+print("hello") // trailing comment
+// between statements
+x = 1 // after assignment
+print(x)

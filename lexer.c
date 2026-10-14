@@ -19,8 +19,17 @@ static char* copy_string(char* string, int length){
     return new_string;
 }
 static void skip_space(char * source){
-    while (source[pos] == ' ' || source[pos] == '\t' || source[pos] == '\n' || source[pos] == '\r'){
-        pos++;
+    for (;;){
+        if (source[pos] == ' ' || source[pos] == '\t' || source[pos] == '\n' || source[pos] == '\r'){
+            pos++;
+        } else if (source[pos] == '/' && source[pos + 1] == '/'){
+            // line comment: skip to the end of the line
+            while (source[pos] != '\n' && source[pos] != '\0'){
+                pos++;
+            }
+        } else {
+            break;
+        }
     }
 }
 Token lex(char* source){

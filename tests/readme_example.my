@@ -1,0 +1,4 @@
+// a comment runs to the end of the line
+x = "hello"
+print(x)
+print("Hello world")   // a comment may follow a statement
